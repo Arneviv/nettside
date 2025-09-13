@@ -1,0 +1,25 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Minimal input</title>
+<form id="f">
+  <input id="msg" name="msg" placeholder="skriv noe" required>
+  <button type="submit">Send</button>
+</form>
+<pre id="out"></pre>
+<script>
+const f = document.getElementById('f');
+const out = document.getElementById('out');
+const msg = document.getElementById('msg');
+
+f.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const r = await fetch('/api/app', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ msg: msg.value })
+  });
+  const j = await r.json();
+  out.textContent = JSON.stringify(j, null, 2);
+  msg.value = '';
+});
+</script>
